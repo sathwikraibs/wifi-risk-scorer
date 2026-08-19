@@ -58,8 +58,7 @@ def get_ip_info(ip):
     local = clean in ('127.0.0.1', '::1', 'localhost')
     target = '' if local else clean
 
-    # CHANGED: timeout dropped from 5s to 2.5s per API so the worst case
-    # (all 4 fail) stays under Vercel's free-tier 10s function limit.
+    
     apis = [
         lambda: _parse(requests.get(
             'http://ip-api.com/json/' + target + '?fields=status,country,countryCode,regionName,city,timezone,isp,org,query,proxy,hosting,mobile',
