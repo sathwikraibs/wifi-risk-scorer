@@ -47,4 +47,4 @@ Optional: set a `FIREBASE_KEY` environment variable (Firebase service account JS
 
 ## Disclaimer
 
-SafeHop gives a general risk estimate based on publicly available network signals. It isn't a substitute for a full security audit — always use a VPN and HTTPS on public networks regardless of the score shown.
+SafeHop gives a general risk estimate based on publicly available network signals. It isn't a substitute for a full security audit always use a VPN and HTTPS on public networks regardless of the score shown.
