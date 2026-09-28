@@ -156,7 +156,7 @@ def run_checks(info, is_https, vpn):
             'extra': 'TLS active' if is_https else 'No TLS'
         },
         {
-            'id': 'vpn', 'name': 'VPN Protection', 'icon': 'shield',
+            'id': 'vpn', 'name': 'VPN Protection', 'icon': '🛡',
             'status': 'pass' if vpn else 'warn',
             'detail': 'VPN active - IP is masked' if vpn else 'No VPN - IP visible to all sites',
             'extra': ''
@@ -283,7 +283,7 @@ def build_insights(info, is_https, vpn, score):
         })
     else:
         insights.append({
-            'icon': 'shield',
+            'icon': '🛡',
             'severity': 'low',
             'text': 'VPN active - your real IP is masked and traffic is tunnelled through an encrypted connection.'
         })
@@ -473,6 +473,12 @@ def manual_scan():
         import urllib.parse
         parsed = urllib.parse.urlparse(target)
         target = parsed.hostname or target
+
+    # Only plain domain names and IP addresses (keeps odd text out of lookups and the page)
+    import re
+    target = target.strip().rstrip('.')[:253]
+    if not re.fullmatch(r'[A-Za-z0-9.:-]+', target):
+        return jsonify({'error': 'Enter a valid IP address or website, like 8.8.8.8 or example.com'})
 
     is_https = (request.headers.get('X-Forwarded-Proto', 'http') == 'https'
                 or request.url.startswith('https'))

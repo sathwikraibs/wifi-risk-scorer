@@ -443,26 +443,121 @@ a{text-decoration:none}
   transform:translateX(-50%) translateY(90px);
   background:var(--text);color:#fff;border-radius:var(--r2);
   padding:12px 22px;font-size:13px;font-weight:600;letter-spacing:-.1px;
-  transition:transform .35s var(--ease);z-index:9999;white-space:nowrap;
+  transition:transform .35s var(--ease),opacity .2s;z-index:9999;white-space:nowrap;
   box-shadow:0 8px 32px rgba(0,0,0,.25);will-change:transform;
 }
-.toast.show{transform:translateX(-50%) translateY(0)}
+.toast{opacity:0}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 /* RESPONSIVE */
 @media(max-width:1050px){
-  .layout{grid-template-columns:1fr}
+  .layout{grid-template-columns:minmax(0,1fr)}
   .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
   .score-row{grid-template-columns:1fr 1fr}
   .identity-card{grid-template-columns:1fr 1fr}
-  .main{padding:20px 18px 60px}
+  .main{padding:20px 18px 60px;min-width:0}
+  .mid-grid,.checks-grid,.insights-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .identity-top > *,.identity-bottom > *{min-width:0}
 }
 @media(max-width:640px){
-  .score-row{grid-template-columns:1fr}
-  .mid-grid{grid-template-columns:1fr}
-  .checks-grid{grid-template-columns:1fr}
-  .insights-grid{grid-template-columns:1fr}
+  html,body{font-size:14px}
+  body{padding-bottom:env(safe-area-inset-bottom)}
+
+  /* Top bar */
+  .topbar{height:52px;padding:0 16px}
+  .topbar-v{display:none}
+  .live-pill{padding:3px 10px 3px 8px}
+
+  /* One column in a phone-friendly order:
+     scan button, manual check, results, actions, stats, history */
+  .layout{display:flex;flex-direction:column;gap:14px;padding:14px 16px 40px;min-height:0}
+  .sidebar{display:contents}
+  .sidebar > *{min-width:0}
+  .scan-block{order:1;padding:20px 18px}
+  .sidebar > :nth-child(2){order:2;background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:16px}
+  .main{order:3;padding:0;gap:14px}
+  #sb-actions{order:4}
+  .sidebar > :nth-child(4){order:5}
+  #sb-history{order:6}
+  #sb-actions,.sidebar > :nth-child(4),#sb-history{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:16px}
+  .sb-label{margin-bottom:10px}
+
+  /* Inputs: 16px stops phones from zooming in on tap */
+  .manual-input{font-size:16px;padding:12px 13px}
+  .manual-go,.sb-btn,.scan-btn{min-height:44px}
+
+  /* Hero */
+  .hero{padding:24px 20px 22px;border-radius:var(--r3)}
+  .hero-bg{font-size:78px;letter-spacing:-3px;bottom:-14px}
+  .hero h1{font-size:27px;letter-spacing:-1px}
+  .hero-desc{font-size:13px}
+
+  /* Skeleton */
+  .sk-row.r4{grid-template-columns:1fr 1fr}
+  .sk-row.r2{grid-template-columns:1fr}
+
+  /* Identity */
+  .identity-panel{border-radius:var(--r3)}
+  .identity-top{grid-template-columns:1fr 1fr;border-bottom:none}
+  .results{scroll-margin-top:64px}
+  .id-hero{grid-column:1 / -1;padding:18px 18px;border-right:none}
+  .id-hero-ip{font-size:18px;letter-spacing:-.5px}
+  .id-col{padding:14px 16px;min-width:0}
+  .id-col-val{font-size:14px;word-break:break-word}
+  .identity-bottom{grid-template-columns:1fr 1fr}
+  .id-status{padding:12px 14px;border-right:none;border-top:1px solid var(--border);min-width:0}
+  .id-status:nth-child(odd){border-right:1px solid var(--border)}
+  .id-status:last-child{grid-column:1 / -1;border-right:none}
+
+  /* Score: ring on top, three numbers side by side */
+  .score-row{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .ring-card{grid-column:1 / -1;flex-direction:row;justify-content:center;gap:22px;padding:18px;border-radius:var(--r3)}
+  .ring-outer{width:112px;height:112px}
+  .ring-outer svg{width:112px;height:112px}
+  .ring-num{font-size:36px;letter-spacing:-2px}
+  .metric{padding:16px 12px 14px;border-radius:var(--r3)}
+  .metric-label{font-size:9px;letter-spacing:.5px}
+  .metric-val{font-size:30px;margin-top:8px}
+  .metric-foot{font-size:10px;margin-top:4px}
+
+  /* Speed */
+  .speed-card{padding:18px;border-radius:var(--r3)}
+  .speed-head{margin-bottom:14px;padding-bottom:12px}
+  .speed-gauges{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .sp-div{display:none}
+  .g-wrap svg{width:100%;max-width:140px;height:auto}
+  .g-num{font-size:26px}
+
+  /* Cards and lists */
+  .card{padding:18px 16px;border-radius:var(--r3)}
+  .card-title{gap:10px;flex-wrap:wrap}
+  .score-row,.mid-grid,.checks-grid,.insights-grid{min-width:0}
+  .mid-grid{grid-template-columns:minmax(0,1fr)}
+  .checks-grid{grid-template-columns:minmax(0,1fr)}
+  .insights-grid{grid-template-columns:minmax(0,1fr)}
+  .ins-tile{padding:14px}
+  .chk-detail{white-space:normal;word-break:break-word}
   .identity-card{grid-template-columns:1fr 1fr}
-  .speed-gauges{gap:20px}
+
+  /* Guide opens as a sheet from the bottom */
+  .overlay{padding:0;align-items:flex-end}
+  .modal{max-width:none;max-height:90vh;border-radius:var(--r4) var(--r4) 0 0}
+  .modal-head{padding:18px 18px 14px}
+  .modal-body{padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+  .step-card{padding:14px;gap:12px}
+
+  .toast{white-space:normal;text-align:center;width:max-content;max-width:calc(100% - 32px);bottom:20px}
+}
+@media(max-width:370px){
+  .hero h1{font-size:24px}
+  .metric-val{font-size:24px}
+  .ring-card{gap:14px}
+  .identity-top{grid-template-columns:1fr}
+  .id-hero + .id-col{border-right:none;border-bottom:1px solid var(--border)}
+}
+/* Phones have no hover: skip the lift effects that stick after a tap */
+@media(hover:none){
+  .metric:hover,.ins-tile:hover,.check:hover,.scan-btn:hover{transform:none}
 }
 </style>
 </head>
@@ -877,7 +972,7 @@ function render(r) {
 
   var badge = document.getElementById('risk-badge');
   badge.className = 'risk-badge ' + cls;
-  badge.innerHTML = '<span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block"></span>' + r.level;
+  badge.textContent = r.level;
 
   ['mbar1','mbar2','mbar3'].forEach(function(id){
     document.getElementById(id).className = 'metric-bar ' + cls;
